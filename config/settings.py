@@ -55,7 +55,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],  # '../templates/'를  기본 경로로 지정
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
