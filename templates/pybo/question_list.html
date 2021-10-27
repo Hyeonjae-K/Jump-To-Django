@@ -2,7 +2,8 @@
 {% if question_list %}
 <ul>
   {% for question in question_list %}
-  <li><a href="/pybo/{{ question.id }}/">{{ question.subject }}</a></li>
+  <!-- app_name이 pybo인 urls.py 파일의 'detail' path로 매핑 및 question.id 전달 -->
+  <li><a href="{% url 'pybo:detail' question.id %}">{{ question.subject }}</a></li>
   {% endfor %}
 </ul>
 <!-- 질문이 없을 경우 다음 태그 출력 -->
