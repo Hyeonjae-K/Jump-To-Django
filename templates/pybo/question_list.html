@@ -1,6 +1,6 @@
-{% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
+{% extends 'base.html' %}
 
+{% block content %}
 <!-- 질문 목록 테이블 -->
 <div class="container my-3">
   <table class="table">
@@ -35,3 +35,4 @@
     </tbody>
   </table>
 </div>
+{% endblock %}
