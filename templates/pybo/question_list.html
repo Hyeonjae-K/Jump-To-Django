@@ -1,12 +1,37 @@
-<!-- 질문이 있을 경우 질문 출력 -->
-{% if question_list %}
-<ul>
-  {% for question in question_list %}
-  <!-- app_name이 pybo인 urls.py 파일의 'detail' path로 매핑 및 question.id 전달 -->
-  <li><a href="{% url 'pybo:detail' question.id %}">{{ question.subject }}</a></li>
-  {% endfor %}
-</ul>
-<!-- 질문이 없을 경우 다음 태그 출력 -->
-{% else %}
-<p>질문이 없습니다.</p>
-{% endif %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
+
+<!-- 질문 목록 테이블 -->
+<div class="container my-3">
+  <table class="table">
+    <!-- 테이블 Column -->
+    <thead>
+      <tr class="thead-dark">
+        <th>번호</th>
+        <th>제목</th>
+        <th>작성일시</th>
+      </tr>
+    </thead>
+    <!-- 테이블 Rows -->
+    <tbody>
+      <!-- 질문이 있을 경우 -->
+      {% if question_list %}
+      <!-- 각각의 질문 출력 -->
+      {% for question in question_list %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>
+          <a href="{% url 'pybo:detail' question.id %}">{{ question.subject }}</a>
+        </td>
+        <td>{{ question.create_date }}</td>
+      </tr>
+      {% endfor %}
+      <!-- 질문이 없을 경우 다음 출력 -->
+      {% else %}
+      <tr>
+        <td colspan="3">질문이 없습니다.</td>
+      </tr>
+      {% endif %}
+    </tbody>
+  </table>
+</div>
