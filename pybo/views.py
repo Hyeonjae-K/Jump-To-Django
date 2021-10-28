@@ -3,6 +3,7 @@ from django.utils import timezone
 from .models import Question, Answer
 from .forms import QuestionForm, AnswerForm
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
 
 
 def index(request):
@@ -25,12 +26,16 @@ def detail(request, question_id):
     return render(request, 'pybo/question_detail.html', context)
 
 
+# 로그인되지 않은 상태에서 함수 호출시 'login' 페이지로 이동
+@login_required(login_url='common:login')
 def answer_create(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     if request.method == 'POST':
         form = AnswerForm(request.POST)
         if form.is_valid():
             answer = form.save(commit=False)
+            # 로그인 계정 저장
+            answer.author = request.user
             answer.create_date = timezone.now()
             answer.question = question
             answer.save()
@@ -46,6 +51,7 @@ def answer_create(request, question_id):
     return redirect('pybo:detail', question_id=question.id)
 
 
+@login_required(login_url='common:login')
 def question_create(request):
     # 요청이 'POST'일 경우
     if request.method == 'POST':
@@ -54,6 +60,7 @@ def question_create(request):
         # 데이터가 유효할 경우
         if form.is_valid():
             question = form.save(commit=False)  # 임시 저장
+            question.author = request.user
             question.create_date = timezone.now()
             question.save()  # 실제 저장
             return redirect('pybo:index')

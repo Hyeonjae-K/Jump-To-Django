@@ -49,7 +49,8 @@
     {% endif %}
     <!-- 답변 입력 textarea -->
     <div class="form-group">
-      <textarea name="content" id="content" class="form-control" rows="10"></textarea>
+      <!-- 로그인 상태가 아닐 경우 disabled -->
+      <textarea {% if not user.is_authenticated %}disabled{% endif %} name="content" id="content" class="form-control" rows="10"></textarea>
     </div>
     <!-- 답변 제출 버튼 -->
     <input type="submit" value="답변등록" class="btn btn-primary">
