@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'common.apps.CommonConfig',  # 로그인 관련 앱 등록(common/apps.py)
     'pybo.apps.PyboConfig',  # 파이보 앱 등록(pybo/apps.py)
     'django.contrib.admin',
     'django.contrib.auth',
@@ -130,3 +131,6 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# 로그인 성공시 '/'로 리다이렉트
+LOGIN_REDIRECT_URL = '/'
