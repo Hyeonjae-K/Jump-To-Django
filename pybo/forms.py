@@ -1,9 +1,8 @@
 from django import forms
-from pybo.models import Question
+from pybo.models import Answer, Question
+
 
 # 폼 상속
-
-
 class QuestionForm(forms.ModelForm):
     # 메타 클래스 생성
     class Meta:
@@ -20,4 +19,13 @@ class QuestionForm(forms.ModelForm):
         labels = {
             'subject': '제목',
             'content': '내용',
+        }
+
+
+class AnswerForm(forms.ModelForm):
+    class Meta:
+        model = Answer
+        fields = ['content']
+        labels = {
+            'content': '답변내용'
         }
