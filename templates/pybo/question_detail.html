@@ -2,6 +2,16 @@
 
 {% block content %}
 <div class="container my-3">
+  <!-- non-field error 발생시 -->
+  {% if messages %}
+  <div class="alert alert-danger my-3" role="alert">
+    <!-- 오류 출력 -->
+    {% for message in messages %}
+    <strong>{{ message.tags }}</strong>
+    <ul><li>{{ message.message }}</li></ul>
+    {% endfor %}
+  </div>
+  {% endif %}
   <!-- 질문 제목 출력 -->
   <h2 class="border-bottom py-2">{{ question.subject }}</h2>
   <div class="card my-3">
@@ -9,6 +19,12 @@
       <!-- 질문 내용 출력 -->
       <div class="card-text" style="white-space: pre-line;">{{ question.content }}</div>
       <div class="d-flex justify-content-end">
+        {% if question.modify_date %}
+        <div class="badge badge-light p-2 text-left mx-3">
+          <div class="mb-2">modified at</div>
+          <div>{{ question.modify_date }}</div>
+        </div>
+        {% endif %}
         <div class="badge badge-light p-2 text-left">
           <!-- 작성자 출력 -->
           <div class="mb-2">{{ question.author.username }}</div>
@@ -16,6 +32,15 @@
           <div>{{ question.create_date }}</div>
         </div>
       </div>
+      <!-- 작성자일 경우 -->
+      {% if request.user == question.author %}
+      <div class="my-3">
+        <!-- 질문 수정 버튼 -->
+        <a href="{% url 'pybo:question_modify' question.id %}" class="btn btn-sm btn-outline-secondary">수정</a>
+        <!-- 질문 삭제 버튼 -->
+        <a href="#" class="delete btn btn-sm btn-outline-secondary" data-uri="{% url 'pybo:question_delete' question.id %}">삭제</a>
+      </div>
+      {% endif %}
     </div>
   </div>
   <!-- 답변 개수 출력 -->
@@ -26,6 +51,12 @@
     <div class="card-body">
       <div class="card-text" style="white-space: pre-line;">{{ answer.content }}</div>
       <div class="d-flex justify-content-end">
+        {% if answer.modify_date %}
+        <div class="badge badge-light p-2 text-left mx-3">
+          <div class="mb-2">modified at</div>
+          <div>{{ answer.modify_date }}</div>
+        </div>
+        {% endif %}
         <div class="badge badge-light p-2 text-left">
           <!-- 작성자 출력 -->
           <div class="mb-2">{{ answer.author.username }}</div>
@@ -33,6 +64,15 @@
           <div>{{ answer.create_date }}</div>
         </div>
       </div>
+      <!-- 작성자일 경우 -->
+      {% if request.user == answer.author %}
+      <div class="my-3">
+        <!-- 답변 수정 버튼 -->
+        <a href="{% url 'pybo:answer_modify' answer.id %}" class="btn btn-sm btn-outline-secondary">수정</a>
+        <!-- 답변 삭제 버튼 -->
+        <a href="#" class="delete btn btn-sm btn-outline-secondary" data-uri="{% url 'pybo:answer_delete' answer.id %}">삭제</a>
+      </div>
+      {% endif %}
     </div>
   </div>
   {% endfor %}
@@ -61,4 +101,20 @@
     <input type="submit" value="답변등록" class="btn btn-primary">
   </form>
 </div>
+{% endblock %}
+
+{%block script %}
+<script type="text/javascript">
+  // 화면이 로드된 후 함수 자동 호출
+  $(document).ready(function(){
+    // delete class 태그의 onclick 감지시
+    $(".delete").on('click', function(){
+      // confirm이 true일 경우
+      if(confirm("정말로 삭제하시겠습니까?")){
+        // href=data-uri값(즉, data-uri url 호출)
+        location.href = $(this).data('uri');
+      }
+    })
+  })
+</script>
 {% endblock %}
