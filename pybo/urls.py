@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import base_views, question_views, answer_views, comment_views
+from .views import base_views, question_views, answer_views, comment_views, vote_views
 
 app_name = 'pybo'
 
@@ -7,7 +7,6 @@ urlpatterns = [
     # ''로 요청이 들어올 경우 views.py 파일의 index 함수 호출
     path('', base_views.index, name='index'),
     path('<int:question_id>/', base_views.detail, name='detail'),
-
     path('question/create/', question_views.question_create, name='question_create'),
     path('question/modify/<int:question_id>/',
          question_views.question_modify, name='question_modify'),
@@ -30,5 +29,9 @@ urlpatterns = [
     path('comment/modify/answer/<int:comment_id>/',
          comment_views.comment_modify_answer, name='comment_modify_answer'),
     path('comment/delete/answer/<int:comment_id>/',
-         comment_views.comment_delete_answer, name='comment_delete_answer')
+         comment_views.comment_delete_answer, name='comment_delete_answer'),
+    path('vote/question/<int:question_id>/',
+         vote_views.vote_question, name='vote_question'),
+    path('vote/answer/<int:answer_id>/',
+         vote_views.vote_answer, name='vote_answer')
 ]
