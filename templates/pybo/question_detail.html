@@ -53,6 +53,8 @@
           {% if question.comment_set.count > 0 %}
           <div class="mt-3">
             {% for comment in question.comment_set.all %}
+            <!-- 댓글 책갈피 -->
+            <a name="comment_{{ comment.id }}"></a>
             <div class="comment py-2 text-muted">
               <!-- 댓글 출력 -->
               <span style="white-space: pre-line;">{{ comment.content }}</span>
@@ -86,6 +88,8 @@
   <h5 class="border-bottom my-3 py-2">{{ question.answer_set.count}}개의 답변이 있습니다.</h5>
   <!-- 반복문을 돌며 각각의 답변 출력 -->
   {% for answer in question.answer_set.all %}
+  <!-- 앵커 추가(책갈피) -->
+  <a name="answer_{{ answer.id }}"></a>
   <div class="row my-3">
     <div class="col-1">
       <div class="bg-light text-center p-3 border font-weight-bolder mb-1">{{ answer.voter.count }}</div>
@@ -122,6 +126,8 @@
           {% if answer.comment_set.count > 0 %}
           <div class="mt-3">
             {% for comment in answer.comment_set.all %}
+            <!-- 댓글 책갈피 -->
+            <a name="comment_{{ comment.id }}"></a>
             <div class="comment py-2 text-muted">
               <!-- 댓글 내용 출력 -->
               <span style="white-space: pre-line;">{{ comment.content }}</span>
